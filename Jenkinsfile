@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3' // Make sure Maven is installed in Jenkins global tools
-        jdk 'JDK8'     // Make sure Java is installed in Jenkins global tools
+        jdk 'JDK17'      // Your JDK name in Jenkins
+        maven 'MAVEN3'   // Your Maven name in Jenkins
     }
 
     stages {
@@ -24,14 +24,20 @@ pipeline {
                 bat 'mvn test'
             }
         }
+
+        stage('Run App') {
+            steps {
+                bat 'java -cp target/calculator-app-1.0-SNAPSHOT.jar com.example.App'
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build, Test and Package Completed Successfully!'
+            echo 'Build, Test and App Run Completed Successfully!'
         }
         failure {
-            echo 'Build Failed!'
+            echo 'Something Failed!'
         }
     }
 }
